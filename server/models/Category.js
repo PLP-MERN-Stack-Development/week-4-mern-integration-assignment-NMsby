@@ -14,7 +14,7 @@ const CategorySchema = new mongoose.Schema(
         slug: {
             type: String,
             unique: true,
-            // required: true - will be generated automatically
+            // Will be generated automatically but not required on input
         },
         description: {
             type: String,
@@ -22,7 +22,7 @@ const CategorySchema = new mongoose.Schema(
         },
         color: {
             type: String,
-            default: '#3b82f6', // Default blue color
+            default: '#3b82f6',
             match: [/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, 'Please provide a valid hex color'],
         },
         isActive: {
@@ -41,6 +41,9 @@ const CategorySchema = new mongoose.Schema(
     }
 );
 
+// Index for performance (but not unique to avoid null issues during creation)
+CategorySchema.index({ slug: 1 });
+
 // Virtual for category's posts
 CategorySchema.virtual('posts', {
     ref: 'Post',
@@ -49,15 +52,33 @@ CategorySchema.virtual('posts', {
     justOne: false,
 });
 
-// Create slug from name before saving - ENHANCED VERSION
-CategorySchema.pre('save', function (next) {
-    // Always generate slug from name (whether new or modified)
-    if (this.name) {
-        this.slug = this.name
-            .toLowerCase()
-            .replace(/[^\w\s-]/g, '') // Remove special characters
-            .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-            .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+// Helper function to generate slug
+const generateSlug = (name) => {
+    if (!name) return '';
+
+    return name
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+};
+
+// Pre-save middleware to generate slug
+CategorySchema.pre('save', async function (next) {
+    // Only generate slug if name exists and has changed
+    if (this.isModified('name') || this.isNew) {
+        let baseSlug = generateSlug(this.name);
+        let slug = baseSlug;
+        let counter = 1;
+
+        // Ensure slug is unique
+        while (await this.constructor.findOne({ slug, _id: { $ne: this._id } })) {
+            slug = `${baseSlug}-${counter}`;
+            counter++;
+        }
+
+        this.slug = slug;
     }
 
     next();
@@ -86,7 +107,7 @@ CategorySchema.statics.getWithPostCounts = async function () {
         },
         {
             $project: {
-                posts: 0 // Remove the posts array from output
+                posts: 0
             }
         },
         {
@@ -95,7 +116,7 @@ CategorySchema.statics.getWithPostCounts = async function () {
     ]);
 };
 
-// Update post count when posts change
+// Update post count method
 CategorySchema.methods.updatePostCount = async function () {
     const Post = mongoose.model('Post');
     const count = await Post.countDocuments({ category: this._id, isPublished: true });

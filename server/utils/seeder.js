@@ -121,7 +121,7 @@ const hashPasswords = async (users) => {
     })));
 };
 
-// Seed data
+// Seed data with individual creates to trigger pre-save hooks
 const seedData = async () => {
     try {
         // Clear existing data
@@ -133,23 +133,34 @@ const seedData = async () => {
         // Hash passwords for users
         const hashedUsers = await hashPasswords(users);
 
-        // Create users
-        const createdUsers = await User.insertMany(hashedUsers);
+        // Create users individually
+        const createdUsers = [];
+        for (const userData of hashedUsers) {
+            const user = await User.create(userData);
+            createdUsers.push(user);
+        }
         console.log('Users created');
 
-        // Create categories
-        const createdCategories = await Category.insertMany(categories);
+        // Create categories individually (triggers pre-save hook for slug generation)
+        const createdCategories = [];
+        for (const categoryData of categories) {
+            const category = await Category.create(categoryData);
+            createdCategories.push(category);
+        }
         console.log('Categories created');
 
-        // Assign random authors and categories to posts
-        const postsWithRefs = posts.map((post, index) => ({
-            ...post,
-            author: createdUsers[index % createdUsers.length]._id,
-            category: createdCategories[index % createdCategories.length]._id
-        }));
+        // Create posts individually
+        const createdPosts = [];
+        for (let i = 0; i < posts.length; i++) {
+            const postData = {
+                ...posts[i],
+                author: createdUsers[i % createdUsers.length]._id,
+                category: createdCategories[i % createdCategories.length]._id
+            };
 
-        // Create posts
-        await Post.insertMany(postsWithRefs);
+            const post = await Post.create(postData);
+            createdPosts.push(post);
+        }
         console.log('Posts created');
 
         console.log('✅ Database seeded successfully!');
