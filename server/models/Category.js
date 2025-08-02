@@ -1,4 +1,4 @@
-// Category.js - Mongoose model for categories
+// Category.js - Mongoose model for categories 
 
 import mongoose from 'mongoose';
 
@@ -14,7 +14,7 @@ const CategorySchema = new mongoose.Schema(
         slug: {
             type: String,
             unique: true,
-            // Will be generated automatically but not required on input
+            // Will be generated automatically, not required on input
         },
         description: {
             type: String,
@@ -40,9 +40,6 @@ const CategorySchema = new mongoose.Schema(
         toObject: { virtuals: true }
     }
 );
-
-// Index for performance (but not unique to avoid null issues during creation)
-CategorySchema.index({ slug: 1 });
 
 // Virtual for category's posts
 CategorySchema.virtual('posts', {

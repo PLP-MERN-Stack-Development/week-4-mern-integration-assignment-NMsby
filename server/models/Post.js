@@ -1,4 +1,4 @@
-// Post.js - Mongoose model for blog posts (ES module syntax)
+// Post.js - Mongoose model for blog posts 
 
 import mongoose from 'mongoose';
 
@@ -20,8 +20,8 @@ const PostSchema = new mongoose.Schema(
         },
         slug: {
             type: String,
-            required: true,
             unique: true,
+            // Will be generated automatically, not required on input
         },
         excerpt: {
             type: String,
@@ -63,19 +63,41 @@ const PostSchema = new mongoose.Schema(
             },
         ],
     },
-    { timestamps: true }
+    {
+        timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    }
 );
 
-// Create slug from title before saving
-PostSchema.pre('save', function (next) {
-    if (!this.isModified('title')) {
-        return next();
-    }
+// Helper function to generate slug from title
+const generateSlug = (title) => {
+    if (!title) return '';
 
-    this.slug = this.title
+    return title
         .toLowerCase()
-        .replace(/[^\w ]+/g, '')
-        .replace(/ +/g, '-');
+        .trim()
+        .replace(/[^\w\s-]/g, '') // Remove special characters
+        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+};
+
+// Pre-save middleware to generate slug
+PostSchema.pre('save', async function (next) {
+    // Only generate slug if title exists and has changed
+    if (this.isModified('title') || this.isNew) {
+        let baseSlug = generateSlug(this.title);
+        let slug = baseSlug;
+        let counter = 1;
+
+        // Ensure slug is unique
+        while (await this.constructor.findOne({ slug, _id: { $ne: this._id } })) {
+            slug = `${baseSlug}-${counter}`;
+            counter++;
+        }
+
+        this.slug = slug;
+    }
 
     next();
 });
