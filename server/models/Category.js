@@ -1,4 +1,4 @@
-// Category.js - Mongoose model for categories (ES module syntax)
+// Category.js - Mongoose model for categories
 
 import mongoose from 'mongoose';
 
@@ -13,8 +13,8 @@ const CategorySchema = new mongoose.Schema(
         },
         slug: {
             type: String,
-            required: true,
             unique: true,
+            // required: true - will be generated automatically
         },
         description: {
             type: String,
@@ -49,17 +49,16 @@ CategorySchema.virtual('posts', {
     justOne: false,
 });
 
-// Create slug from name before saving
+// Create slug from name before saving - ENHANCED VERSION
 CategorySchema.pre('save', function (next) {
-    if (!this.isModified('name')) {
-        return next();
+    // Always generate slug from name (whether new or modified)
+    if (this.name) {
+        this.slug = this.name
+            .toLowerCase()
+            .replace(/[^\w\s-]/g, '') // Remove special characters
+            .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
+            .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
     }
-
-    this.slug = this.name
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove special characters
-        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
 
     next();
 });

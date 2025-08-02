@@ -21,7 +21,7 @@ const router = express.Router();
 
 // Public routes
 router.get('/', getCategories);
-router.get('/:id', validateObjectId, getCategory);
+
 router.get('/slug/:slug', [
     param('slug')
         .trim()
@@ -31,6 +31,8 @@ router.get('/slug/:slug', [
         .withMessage('Slug must contain only lowercase letters, numbers, and hyphens'),
     handleValidationErrors
 ], getCategoryBySlug);
+
+router.get('/:id', validateObjectId, getCategory);
 
 // Protected routes (Admin only)
 router.post('/', protect, authorize('admin'), validateCategoryCreation, createCategory);

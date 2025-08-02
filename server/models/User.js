@@ -1,7 +1,8 @@
-// User.js - Mongoose model for users
+// User.js - Mongoose model for users (FIXED VERSION)
 
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const UserSchema = new mongoose.Schema(
     {
