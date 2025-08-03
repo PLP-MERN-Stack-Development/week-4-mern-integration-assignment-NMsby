@@ -15,7 +15,9 @@ export default defineConfig({
             '@hooks': path.resolve(__dirname, './src/hooks'),
             '@services': path.resolve(__dirname, './src/services'),
             '@utils': path.resolve(__dirname, './src/utils'),
-            '@context': path.resolve(__dirname, './src/context')
+            '@context': path.resolve(__dirname, './src/context'),
+            '@lib': path.resolve(__dirname, './src/lib'),
+            '@ui': path.resolve(__dirname, './src/components/ui'),
         }
     },
 
@@ -23,6 +25,7 @@ export default defineConfig({
     server: {
         port: 3000,
         host: true,
+        open: true,
 
         // Proxy API calls to backend during development
         proxy: {
@@ -46,9 +49,15 @@ export default defineConfig({
                     vendor: ['react', 'react-dom'],
                     router: ['react-router-dom'],
                     utils: ['axios', '@tanstack/react-query'],
+                    ui: ['@radix-ui/react-dropdown-menu', '@radix-ui/react-dialog', 'lucide-react'],
                 }
             }
         }
+    },
+
+    // CSS configuration for better Tailwind processing
+    css: {
+        postcss: './postcss.config.js',
     },
 
     // Testing configuration

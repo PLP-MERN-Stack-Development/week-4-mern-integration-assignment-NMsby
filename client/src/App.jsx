@@ -14,6 +14,7 @@ import Register from './pages/Register'
 // Import context providers
 import { AuthProvider } from './context/AuthContext'
 import { PostProvider } from './context/PostContext'
+import TestTailwind from "@components/TestTailwind.jsx";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true)
@@ -48,6 +49,7 @@ function App() {
 
     return (
         <AuthProvider>
+            <TestTailwind />
             <PostProvider>
                 <Router>
                     <div className="app">
