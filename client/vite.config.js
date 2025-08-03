@@ -24,15 +24,27 @@ export default defineConfig({
     // Development server configuration
     server: {
         port: 3000,
-        host: true,
+        host: '0.0.0.0',
         open: true,
+        strictPort: false,
 
         // Proxy API calls to backend during development
         proxy: {
             '/api': {
                 target: 'http://localhost:5000',
                 changeOrigin: true,
-                secure: false
+                secure: false,
+                configure: (proxy, options) => {
+                    proxy.on('error', (err, req, res) => {
+                        console.log('Proxy error: ', err);
+                    });
+                    proxy.on('proxyReq', (proxyReq, req, res) => {
+                        console.log('Sending Request to the Target:', req.method, req.url);
+                    });
+                    proxy.on('proxyRes', (proxyRes, req, res) => {
+                        console.log('Received Response from the Target:', proxyRes.statusCode, req.url);
+                    });
+                },
             }
         }
     },
@@ -41,6 +53,7 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         sourcemap: true,
+        emptyOutDir: true,
 
         // Optimize bundle
         rollupOptions: {
@@ -58,6 +71,7 @@ export default defineConfig({
     // CSS configuration for better Tailwind processing
     css: {
         postcss: './postcss.config.js',
+        devSourcemap: true,
     },
 
     // Testing configuration
@@ -65,5 +79,9 @@ export default defineConfig({
         environment: 'jsdom',
         setupFiles: ['./src/test/setup.js'],
         globals: true
-    }
+    },
+
+    // Additional debugging options
+    logLevel: 'info',
+    clearScreen: false,
 })
