@@ -17,10 +17,6 @@
     min-height: 100vh;
 }
 
-.loading-spinner {
-    @apply loading-spinner;
-}
-
 /* Utility classes */
 .fade-in {
     animation: fadeIn 0.3s ease-in-out;
