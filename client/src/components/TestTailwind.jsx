@@ -1,33 +1,42 @@
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 export default function TestTailwind() {
     return (
-        <div className="p-8 max-w-md mx-auto">
-            <div className={cn(
-                "bg-gradient-primary text-primary-foreground",
-                "p-6 rounded-lg shadow-elegant",
-                "hover:scale-105 transition-transform duration-300"
-            )}>
-                <h2 className="text-2xl font-heading font-bold mb-4">
-                    Tailwind + shadcn/ui Test
-                </h2>
-                <p className="text-primary-foreground/90">
-                    If you can see this styled card with hover effects,
-                    Tailwind CSS is working perfectly!
-                </p>
-                <button className="btn-hero mt-4">
-                    Test Button
-                </button>
-            </div>
+        <div className="container mx-auto p-8">
+            <Card className="max-w-md mx-auto">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-heading font-bold">
+                        shadcn/ui + Tailwind Test
+                    </CardTitle>
+                    <CardDescription>
+                        Professional UI components with beautiful styling
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-muted-foreground">
+                        If you can see this styled card with components,
+                        everything is working perfectly!
+                    </p>
 
-            <div className="mt-6 space-y-2">
-                <div className="w-full h-2 bg-muted rounded-full">
-                    <div className="w-3/4 h-2 bg-primary rounded-full"></div>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                    Progress bar example
-                </p>
-            </div>
+                    <div className="flex gap-2">
+                        <Button variant="hero">Hero Button</Button>
+                        <Button variant="outline">Outline</Button>
+                    </div>
+
+                    <div className="flex gap-2 flex-wrap">
+                        <Badge>Default</Badge>
+                        <Badge variant="secondary">Secondary</Badge>
+                        <Badge variant="success">Success</Badge>
+                    </div>
+
+                    <div className="w-full h-2 bg-muted rounded-full">
+                        <div className="w-3/4 h-2 bg-gradient-primary rounded-full"></div>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     )
 }

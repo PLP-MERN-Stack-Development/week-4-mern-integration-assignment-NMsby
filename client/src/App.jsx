@@ -11,6 +11,7 @@ import PostDetail from './pages/PostDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import TestTailwind from './components/TestTailwind'
+import ComponentShowcase from './components/ui/ComponentShowcase'
 
 // Import context providers
 import { AuthProvider } from './context/AuthContext'
@@ -61,6 +62,7 @@ function App() {
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
                                 <Route path="/test" element={<TestTailwind />} />
+                                <Route path="/showcase" element={<ComponentShowcase />} />
                             </Routes>
                         </main>
                     </div>
