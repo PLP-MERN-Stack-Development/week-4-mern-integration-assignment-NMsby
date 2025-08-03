@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 
-// Import components (we'll create these in Phase 3)
+// Import components
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Posts from './pages/Posts'
@@ -10,11 +10,11 @@ import CreatePost from './pages/CreatePost'
 import PostDetail from './pages/PostDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import TestTailwind from './components/TestTailwind'
 
 // Import context providers
 import { AuthProvider } from './context/AuthContext'
 import { PostProvider } from './context/PostContext'
-import TestTailwind from "@components/TestTailwind.jsx";
 
 function App() {
     const [isLoading, setIsLoading] = useState(true)
@@ -26,7 +26,6 @@ function App() {
                 // Check if user is logged in
                 const token = localStorage.getItem('token')
                 if (token) {
-                    // Verify token validity (we'll implement this later)
                     console.log('User token found')
                 }
             } catch (error) {
@@ -49,7 +48,6 @@ function App() {
 
     return (
         <AuthProvider>
-            <TestTailwind />
             <PostProvider>
                 <Router>
                     <div className="app">
@@ -62,6 +60,7 @@ function App() {
                                 <Route path="/posts/:id" element={<PostDetail />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/register" element={<Register />} />
+                                <Route path="/test" element={<TestTailwind />} />
                             </Routes>
                         </main>
                     </div>
