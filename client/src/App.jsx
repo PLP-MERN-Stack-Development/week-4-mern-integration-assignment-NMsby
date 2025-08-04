@@ -2,16 +2,19 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 
-// Import components
-import Navbar from './components/Navbar'
+// Import layout
+import Layout from './components/layout/Layout'
+
+// Import pages
 import Home from './pages/Home'
 import Posts from './pages/Posts'
 import CreatePost from './pages/CreatePost'
 import PostDetail from './pages/PostDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import TestTailwind from './components/TestTailwind'
-import ComponentShowcase from './components/ui/ComponentShowcase'
+import TestTailwind from './pages/TestTailwind'
+import ComponentShowcase from './pages/ComponentShowcase'
+import Categories from './pages/Categories'
 
 // Import context providers
 import { AuthProvider } from './context/AuthContext'
@@ -51,21 +54,19 @@ function App() {
         <AuthProvider>
             <PostProvider>
                 <Router>
-                    <div className="app">
-                        <Navbar />
-                        <main className="main-content">
-                            <Routes>
-                                <Route path="/" element={<Home />} />
-                                <Route path="/posts" element={<Posts />} />
-                                <Route path="/posts/create" element={<CreatePost />} />
-                                <Route path="/posts/:id" element={<PostDetail />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/register" element={<Register />} />
-                                <Route path="/test" element={<TestTailwind />} />
-                                <Route path="/showcase" element={<ComponentShowcase />} />
-                            </Routes>
-                        </main>
-                    </div>
+                    <Layout>
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/posts" element={<Posts />} />
+                            <Route path="/posts/create" element={<CreatePost />} />
+                            <Route path="/posts/:id" element={<PostDetail />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/register" element={<Register />} />
+                            <Route path="/test" element={<TestTailwind />} />
+                            <Route path="/showcase" element={<ComponentShowcase />} />
+                            <Route path="/categories" element={<Categories />} />
+                        </Routes>
+                    </Layout>
                 </Router>
             </PostProvider>
         </AuthProvider>

@@ -1,7 +1,7 @@
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { cn } from '@lib/utils.js'
+import { Button } from '@ui/button.jsx'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ui/card.jsx'
+import { Badge } from '@ui/badge.jsx'
 
 export default function TestTailwind() {
     return (

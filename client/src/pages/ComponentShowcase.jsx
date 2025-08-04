@@ -1,9 +1,9 @@
-import { Button } from "./button"
-import { Input } from "./input"
-import { Label } from "./label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./card"
-import { Badge } from "./badge"
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar"
+import { Button } from "@ui/button.jsx"
+import { Input } from "@ui/input.jsx"
+import { Label } from "@ui/label.jsx"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@ui/card.jsx"
+import { Badge } from "@ui/badge.jsx"
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar.jsx"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,8 +11,8 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from "./dropdown-menu"
-import { Textarea } from "./textarea"
+} from "@ui/dropdown-menu.jsx"
+import { Textarea } from "@ui/textarea.jsx"
 import { BookOpen, User, Settings, LogOut, Plus, Search } from "lucide-react"
 
 export default function ComponentShowcase() {
