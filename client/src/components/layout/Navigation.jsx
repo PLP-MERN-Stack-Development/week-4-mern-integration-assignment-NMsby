@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Button } from '@ui/button.jsx'
-import { Input } from '@ui/input.jsx'
-import { Avatar, AvatarFallback, AvatarImage } from '@ui/avatar.jsx'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from '@ui/dropdown-menu.jsx'
-import { Badge } from '@ui/badge.jsx'
+} from '@/components/ui/dropdown-menu'
+import { Badge } from '@/components/ui/badge'
 import {
     BookOpen,
     Search,
@@ -26,7 +26,7 @@ import {
     Tag,
     Bell
 } from 'lucide-react'
-import { useAuth } from '@context/AuthContext.jsx'
+import { useAuth } from '@/context/AuthContext'
 
 export default function Navigation() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)

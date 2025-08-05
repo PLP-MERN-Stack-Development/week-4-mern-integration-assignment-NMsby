@@ -12,9 +12,9 @@ import CreatePost from './pages/CreatePost'
 import PostDetail from './pages/PostDetail'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Categories from './pages/Categories'
 import TestTailwind from './pages/TestTailwind'
 import ComponentShowcase from './pages/ComponentShowcase'
-import Categories from './pages/Categories'
 
 // Import context providers
 import { AuthProvider } from './context/AuthContext'
@@ -62,9 +62,9 @@ function App() {
                             <Route path="/posts/:id" element={<PostDetail />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/register" element={<Register />} />
+                            <Route path="/categories" element={<Categories />} />
                             <Route path="/test" element={<TestTailwind />} />
                             <Route path="/showcase" element={<ComponentShowcase />} />
-                            <Route path="/categories" element={<Categories />} />
                         </Routes>
                     </Layout>
                 </Router>
